@@ -37,9 +37,13 @@ For example:
 
 4) Finally, run the tool to decode the image:
 
-`cdi_export print image.raw`
+`cdi_extract print image.raw`
 
 At this point you should see a list of directories and files stored on CD-i.
+
+`cdi_extract extract image.raw`
+
+`cdi_extract extract-mpegs image.raw`
 
 ## To address in future
 
