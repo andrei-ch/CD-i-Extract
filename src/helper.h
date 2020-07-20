@@ -23,7 +23,7 @@ public:
   void read_disc_paths();
   const std::vector<std::string> &disc_paths() const { return paths_; }
 
-  void print_directory(const std::string &disc_path); // TODO: disc_path
+  void print_directory(const std::string &disc_path);
 
   void enum_directory(
       std::string disc_path,
@@ -35,7 +35,7 @@ public:
                          const cd_i::directory_entry_ex &file_ex,
                          const boost::filesystem::path &dest_directory);
 
-  cd_i::disc_structure_reader &reader() { return reader_; } // TODO get rid of
+  cd_i::disc_structure_reader &reader() { return reader_; }
 
 private:
   std::string out_path_;
