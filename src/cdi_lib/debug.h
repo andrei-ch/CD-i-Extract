@@ -18,7 +18,7 @@ std::string video_coding_resolution(uint8_t coding_info);
 std::string audio_channel_layout(uint8_t coding_info);
 std::string audio_sampling_rate(uint8_t coding_info);
 std::string audio_bits_per_sample(uint8_t coding_info);
-void debug_dump_sector_header(const sector_header &h);
+void dump_sector_header(const sector_header &h);
 
 } // namespace debug
 } // namespace cd_i

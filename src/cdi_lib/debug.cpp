@@ -84,7 +84,7 @@ std::string audio_bits_per_sample(uint8_t coding_info) {
   }
 }
 
-void debug_dump_sector_header(const sector_header &h) {
+void dump_sector_header(const sector_header &h) {
   printf("mode=%u "
          "filenum=%u channel_num=%u submode=%s,%s,%s,%s,%s,%s,%s,%s",
          h.mode, h.file_num, h.channel_num, (h.submode & eof) ? "EOF" : "",
