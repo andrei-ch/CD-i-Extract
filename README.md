@@ -16,7 +16,12 @@ It supports extracting the complete filesystem, as well as real-time MPEG stream
 Additionally, this tool's source code includes a library for parsing CD-ROM XA and CD-i sectors, and navigating CD-i filesystem.
 
 ## Build
-This project requires boost library to build: `brew install boost`. It was last built using Xcode 11.6 and tested on macOS 10.15.16.
+This project requires libraries to build:
+```
+brew install boost
+brew install libpng
+```
+It was last built using Xcode 11.6 and tested on macOS 10.15.16.
 
 ## Use
 Before you can use this tool, you need to dump the contents of CD-i track from the disc. Note that data must be extracted as raw, preserving all sector content, not just audio parts.
@@ -41,10 +46,8 @@ For example:
 
 At this point you should see a list of directories and files stored on CD-i.
 
-`cdi_extract extract image.raw`
-
-`cdi_extract extract-mpegs image.raw`
+`cdi_extract extract-all image.raw`
 
 ## To address in future
 
-1. Extract DYUV still images and ADPCM audio
+1. Extract ADPCM audio
