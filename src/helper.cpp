@@ -8,6 +8,9 @@
 
 #include "helper.h"
 
+#include "cdi_lib/debug.h"
+#include "dyuv.h"
+
 #include <boost/format.hpp>
 
 using namespace cd_i;
@@ -133,6 +136,59 @@ void cdi_helper::copy_mpeg_streams(const std::string &path,
     } else {
       throw std::runtime_error("corrupted data");
     }
+    return true;
+  });
+}
+
+void cdi_helper::copy_dyuv_images(const std::string &path,
+                                  const directory_entry &file,
+                                  const directory_entry_ex &file_ex,
+                                  const dyuv_options &options,
+                                  const fs::path &dest_directory) {
+  bool media_found = false;
+  std::unordered_map<uint8_t, std::vector<uint8_t>> dyuv_datas;
+  const size_t frame_size = options.width * options.height;
+  int image_idx = 0;
+
+  reader_.scan_file(file, file_ex, [&](const sector_data &sector) {
+    if (!parse::is_video_sector(sector)) {
+      return true;
+    }
+
+    const sector_header &header = parse::get_sector_header(sector);
+    if ((header.coding_info & coding_mask) != coding_DYUV) {
+      return true;
+    }
+
+    std::vector<uint8_t> &dyuv_data = dyuv_datas[header.channel_num];
+
+    if (parse::is_mode2_form1_sector(sector)) {
+      dyuv_data.insert(
+          dyuv_data.end(), parse::get_mode2_form1_data<char>(sector),
+          parse::get_mode2_form1_data<char>(sector) + mode2_form1_data_size);
+    } else if (parse::is_mode2_form2_sector(sector)) {
+      dyuv_data.insert(
+          dyuv_data.end(), parse::get_mode2_form2_data<char>(sector),
+          parse::get_mode2_form2_data<char>(sector) + mode2_form2_data_size);
+    } else {
+      throw std::runtime_error("corrupted data");
+    }
+
+    if (dyuv_data.size() >= frame_size) {
+      if (!media_found) {
+        fs::create_directories(dest_directory);
+        media_found = true;
+      }
+
+      fs::path png_path = dest_directory;
+      png_path.append((boost::format("image_%d.png") % image_idx++).str());
+
+      std::cerr << "    Copying " << png_path << std::endl;
+
+      convert_dyuv_png(dyuv_data, options, png_path.string());
+      dyuv_data.clear();
+    }
+
     return true;
   });
 }

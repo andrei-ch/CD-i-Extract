@@ -8,6 +8,7 @@
 
 #include "actions.h"
 
+#include "dyuv.h"
 #include "helper.h"
 
 using namespace cd_i;
@@ -87,8 +88,35 @@ int copy_mpeg_streams(std::string input_path, std::string output_path) {
   return 0;
 }
 
+int copy_dyuv_images(std::string input_path, std::string output_path) {
+  try {
+    cdi_helper worker(input_path, output_path);
+    worker.read_disc_paths();
+    worker.init_destination();
+
+    for (const auto &path : worker.disc_paths()) {
+      worker.enum_directory(path, [&](const std::string &name,
+                                      const directory_entry &file,
+                                      const directory_entry_ex &file_ex) {
+        // Add .MEDIA suffix to stream directory name to prevent overwriting an
+        // actual file
+        const auto destination =
+            worker.init_destination(path + "/" + name + ".MEDIA", false);
+
+        worker.copy_dyuv_images(path, file, file_ex, dyuv_options{},
+                                destination);
+      });
+    }
+  } catch (std::exception &ex) {
+    std::cerr << ex.what() << std::endl;
+    return 1;
+  }
+  return 0;
+}
+
 int copy_all(std::string input_path, std::string output_path) {
   copy_filesystem(input_path, output_path);
   copy_mpeg_streams(input_path, output_path);
+  copy_dyuv_images(input_path, output_path);
   return 0;
 }

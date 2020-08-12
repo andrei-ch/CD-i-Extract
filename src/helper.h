@@ -12,6 +12,8 @@
 
 #include <boost/filesystem.hpp>
 
+struct dyuv_options;
+
 class cdi_helper {
 public:
   cdi_helper(std::string in_path, std::string out_path = "")
@@ -34,6 +36,12 @@ public:
                          const cd_i::directory_entry &file,
                          const cd_i::directory_entry_ex &file_ex,
                          const boost::filesystem::path &dest_directory);
+
+  void copy_dyuv_images(const std::string &disc_path,
+                        const cd_i::directory_entry &file,
+                        const cd_i::directory_entry_ex &file_ex,
+                        const dyuv_options &options,
+                        const boost::filesystem::path &dest_directory);
 
   cd_i::disc_structure_reader &reader() { return reader_; }
 

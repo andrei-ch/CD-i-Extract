@@ -13,4 +13,5 @@
 int print_filesystem(std::string input_path, std::string output_path);
 int copy_filesystem(std::string input_path, std::string output_path);
 int copy_mpeg_streams(std::string input_path, std::string output_path);
+int copy_dyuv_images(std::string input_path, std::string output_path);
 int copy_all(std::string input_path, std::string output_path);

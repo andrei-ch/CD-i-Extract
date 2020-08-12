@@ -31,7 +31,7 @@ struct command_description {
   command_handler handler;
 };
 
-const std::array<command_description, 4> commands = {{
+const std::array<command_description, 5> commands = {{
     {"print,p", "Print all files and directories in CD-i track image",
      &print_filesystem},
     {"extract-files,x",
@@ -40,7 +40,9 @@ const std::array<command_description, 4> commands = {{
      &copy_filesystem},
     {"extract-mpegs,m", "Copy real-time MPEG streams from CD-i track image",
      &copy_mpeg_streams},
-    {"extract-all,a", "Copy everything from CD-i track image (same as -x -m)",
+    {"extract-dyuv,d", "Copy DYUV images from CD-i track image",
+     &copy_dyuv_images},
+    {"extract-all,a", "Copy all supported formats from CD-i track image",
      &copy_all},
 }};
 
