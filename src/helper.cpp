@@ -147,7 +147,7 @@ void cdi_helper::copy_dyuv_images(const std::string &path,
                                   const fs::path &dest_directory) {
   bool media_found = false;
   std::unordered_map<uint8_t, std::vector<uint8_t>> dyuv_datas;
-  const size_t frame_size = options.width * options.height;
+  const size_t frame_size = options.size.width * options.size.height;
   int image_idx = 0;
 
   reader_.scan_file(file, file_ex, [&](const sector_data &sector) {

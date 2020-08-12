@@ -55,8 +55,8 @@ static bool write_png_file(std::vector<uint8_t> &rgb_data, const size_t width,
 
 bool decode_dyuv(const std::vector<uint8_t> &dyuv_data,
                  const dyuv_options &options, std::vector<uint8_t> &rgb_data) {
-  const size_t width = options.width;
-  const size_t height = options.height;
+  const size_t width = options.size.width;
+  const size_t height = options.size.height;
   const size_t line_size = width;
 
   constexpr std::array<uint8_t, 16> coding_table = {
@@ -69,9 +69,9 @@ bool decode_dyuv(const std::vector<uint8_t> &dyuv_data,
   const uint8_t *end = current + line_size * height;
 
   while (current < end) {
-    uint8_t cur_y = options.init_y;
-    uint8_t cur_u = options.init_u;
-    uint8_t cur_v = options.init_v;
+    uint8_t cur_y = options.seed.y;
+    uint8_t cur_u = options.seed.u;
+    uint8_t cur_v = options.seed.v;
 
     const uint8_t *next = current + line_size;
 
@@ -140,8 +140,9 @@ bool convert_dyuv_png(const std::vector<uint8_t> &dyuv_data,
   if (!decode_dyuv(dyuv_data, options, rgb_data)) {
     return false;
   }
-  assert(rgb_data.size() == options.width * options.height * 3);
-  if (!write_png_file(rgb_data, options.width, options.height, destination)) {
+  assert(rgb_data.size() == options.size.width * options.size.height * 3);
+  if (!write_png_file(rgb_data, options.size.width, options.size.height,
+                      destination)) {
     return false;
   }
   return true;

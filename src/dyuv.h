@@ -11,12 +11,20 @@
 #include <string>
 #include <vector>
 
-struct dyuv_options {
+struct dyuv_size {
   size_t width = 384;
   size_t height = 280;
-  uint8_t init_y = 16;
-  uint8_t init_u = 128;
-  uint8_t init_v = 128;
+};
+
+struct dyuv_seed {
+  uint8_t y = 16;
+  uint8_t u = 128;
+  uint8_t v = 128;
+};
+
+struct dyuv_options {
+  dyuv_size size;
+  dyuv_seed seed;
   bool interpolate = true;
 };
 

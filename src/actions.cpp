@@ -15,7 +15,8 @@ using namespace cd_i;
 
 namespace fs = boost::filesystem;
 
-int print_filesystem(std::string input_path, std::string /*output_path*/) {
+int print_filesystem(std::string input_path, std::string /*output_path*/,
+                     const action_options & /*opts*/) {
   try {
     cdi_helper worker(input_path);
     worker.read_disc_paths();
@@ -33,7 +34,8 @@ int print_filesystem(std::string input_path, std::string /*output_path*/) {
   return 0;
 }
 
-int copy_filesystem(std::string input_path, std::string output_path) {
+int copy_filesystem(std::string input_path, std::string output_path,
+                    const action_options & /*opts*/) {
   try {
     cdi_helper worker(input_path, output_path);
     worker.read_disc_paths();
@@ -63,7 +65,8 @@ int copy_filesystem(std::string input_path, std::string output_path) {
   return 0;
 }
 
-int copy_mpeg_streams(std::string input_path, std::string output_path) {
+int copy_mpeg_streams(std::string input_path, std::string output_path,
+                      const action_options & /*opts*/) {
   try {
     cdi_helper worker(input_path, output_path);
     worker.read_disc_paths();
@@ -88,7 +91,8 @@ int copy_mpeg_streams(std::string input_path, std::string output_path) {
   return 0;
 }
 
-int copy_dyuv_images(std::string input_path, std::string output_path) {
+int copy_dyuv_images(std::string input_path, std::string output_path,
+                     const action_options &opts) {
   try {
     cdi_helper worker(input_path, output_path);
     worker.read_disc_paths();
@@ -103,8 +107,7 @@ int copy_dyuv_images(std::string input_path, std::string output_path) {
         const auto destination =
             worker.init_destination(path + "/" + name + ".MEDIA", false);
 
-        worker.copy_dyuv_images(path, file, file_ex, dyuv_options{},
-                                destination);
+        worker.copy_dyuv_images(path, file, file_ex, opts.dyuv, destination);
       });
     }
   } catch (std::exception &ex) {
@@ -114,9 +117,10 @@ int copy_dyuv_images(std::string input_path, std::string output_path) {
   return 0;
 }
 
-int copy_all(std::string input_path, std::string output_path) {
-  copy_filesystem(input_path, output_path);
-  copy_mpeg_streams(input_path, output_path);
-  copy_dyuv_images(input_path, output_path);
+int copy_all(std::string input_path, std::string output_path,
+             const action_options &opts) {
+  copy_filesystem(input_path, output_path, opts);
+  copy_mpeg_streams(input_path, output_path, opts);
+  copy_dyuv_images(input_path, output_path, opts);
   return 0;
 }
