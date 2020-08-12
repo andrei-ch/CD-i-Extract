@@ -10,6 +10,7 @@
 
 #include <string>
 
-int print_all_files(std::string input_path, std::string output_path);
-int copy_all_files(std::string input_path, std::string output_path);
-int copy_all_media(std::string input_path, std::string output_path);
+int print_filesystem(std::string input_path, std::string output_path);
+int copy_filesystem(std::string input_path, std::string output_path);
+int copy_mpeg_streams(std::string input_path, std::string output_path);
+int copy_all(std::string input_path, std::string output_path);

@@ -14,7 +14,7 @@ using namespace cd_i;
 
 namespace fs = boost::filesystem;
 
-int print_all_files(std::string input_path, std::string /*output_path*/) {
+int print_filesystem(std::string input_path, std::string /*output_path*/) {
   try {
     cdi_helper worker(input_path);
     worker.read_disc_paths();
@@ -32,7 +32,7 @@ int print_all_files(std::string input_path, std::string /*output_path*/) {
   return 0;
 }
 
-int copy_all_files(std::string input_path, std::string output_path) {
+int copy_filesystem(std::string input_path, std::string output_path) {
   try {
     cdi_helper worker(input_path, output_path);
     worker.read_disc_paths();
@@ -62,7 +62,7 @@ int copy_all_files(std::string input_path, std::string output_path) {
   return 0;
 }
 
-int copy_all_media(std::string input_path, std::string output_path) {
+int copy_mpeg_streams(std::string input_path, std::string output_path) {
   try {
     cdi_helper worker(input_path, output_path);
     worker.read_disc_paths();
@@ -84,5 +84,11 @@ int copy_all_media(std::string input_path, std::string output_path) {
     std::cerr << ex.what() << std::endl;
     return 1;
   }
+  return 0;
+}
+
+int copy_all(std::string input_path, std::string output_path) {
+  copy_filesystem(input_path, output_path);
+  copy_mpeg_streams(input_path, output_path);
   return 0;
 }

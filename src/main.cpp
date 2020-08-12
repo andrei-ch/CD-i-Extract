@@ -31,15 +31,17 @@ struct command_description {
   command_handler handler;
 };
 
-const std::array<command_description, 3> commands = {{
+const std::array<command_description, 4> commands = {{
     {"print,p", "Print all files and directories in CD-i track image",
-     &print_all_files},
-    {"extract,x",
+     &print_filesystem},
+    {"extract-files,x",
      "Copy files and directories from CD-i track image. (Note: MPEG streams "
      "are not files.)",
-     &copy_all_files},
-    {"extract-mpegs", "Copy real-time MPEG streams from CD-i track image",
-     &copy_all_media},
+     &copy_filesystem},
+    {"extract-mpegs,m", "Copy real-time MPEG streams from CD-i track image",
+     &copy_mpeg_streams},
+    {"extract-all,a", "Copy everything from CD-i track image (same as -x -m)",
+     &copy_all},
 }};
 
 command_handler_t action;
@@ -125,8 +127,14 @@ bool parse_options(int argc, const char *argv[]) {
     print_commands();
     std::cerr << std::endl;
     std::cerr << global_options << std::endl;
+    return false;
   }
-  return !usage;
+
+  if (output_path.empty()) {
+    boost::filesystem::path path(input_path);
+    output_path = path.parent_path().string();
+  }
+  return true;
 }
 
 } // namespace
