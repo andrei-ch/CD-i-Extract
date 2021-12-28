@@ -58,6 +58,8 @@ Install:
 sudo make install
 ```
 
+Last built using `gcc (Raspbian 8.3.0-6+rpi1) 8.3.0`
+
 ## Use
 Before you can use this tool, you need to dump the contents of CD-i track from the disc. Note that data must be extracted as raw, preserving all sector content, not just audio parts.
 
