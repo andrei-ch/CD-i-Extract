@@ -16,12 +16,27 @@ It supports extracting the complete filesystem, as well as real-time MPEG stream
 Additionally, this tool's source code includes a library for parsing CD-ROM XA and CD-i sectors, and navigating CD-i filesystem.
 
 ## Build
-This project requires libraries to build:
+### macOS
+Install required libraries:
 ```
 brew install boost
 brew install libpng
 ```
-It was last built using Xcode 11.6 and tested on macOS 10.15.16.
+
+Build:
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+Install:
+```
+sudo make install
+```
+
+It was last built using Xcode 13.2.1 and tested on macOS 12.0.1.
 
 ## Use
 Before you can use this tool, you need to dump the contents of CD-i track from the disc. Note that data must be extracted as raw, preserving all sector content, not just audio parts.
@@ -42,11 +57,11 @@ For example:
 
 4) Finally, run the tool to decode the image:
 
-`cdi_extract print image.raw`
+`cdix print image.raw`
 
 At this point you should see a list of directories and files stored on CD-i.
 
-`cdi_extract extract-all image.raw`
+`cdix extract-all image.raw`
 
 ## To address in future
 
