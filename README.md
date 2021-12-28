@@ -38,6 +38,26 @@ sudo make install
 
 It was last built using Xcode 13.2.1 and tested on macOS 12.0.1.
 
+### Raspbian
+Install required libraries:
+```
+sudo apt-get install boost1.67-dev
+sudo apt-get install libpng-dev
+```
+
+Build:
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+Install:
+```
+sudo make install
+```
+
 ## Use
 Before you can use this tool, you need to dump the contents of CD-i track from the disc. Note that data must be extracted as raw, preserving all sector content, not just audio parts.
 
