@@ -10,7 +10,9 @@
 
 #include <png.h>
 
+#include <algorithm>
 #include <array>
+#include <cassert>
 #include <cmath>
 
 static bool write_png_file(std::vector<uint8_t> &rgb_data, const size_t width,
