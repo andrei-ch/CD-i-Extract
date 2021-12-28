@@ -11,6 +11,8 @@
 #include "media.h"
 #include "structure.h"
 
+#include <cassert>
+
 namespace cd_i {
 namespace parse {
 

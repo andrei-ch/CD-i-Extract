@@ -200,6 +200,8 @@ void disc_structure_reader::parse_directory(
     while (current < end) {
       const directory_entry *entry =
           reinterpret_cast<const directory_entry *>(current);
+      const char *entry_name =
+          reinterpret_cast<const char *>(current + sizeof(directory_entry));
 
       static_assert(sizeof(entry->entry_len) == 1, "");
       if (entry->entry_len == 0) {
@@ -220,16 +222,16 @@ void disc_structure_reader::parse_directory(
 
       std::string name;
       size_t name_len = entry->name_len;
-      if (name_len == 1 && entry->name[0] == 0) {
+      if (name_len == 1 && entry_name[0] == 0) {
         name = ".";
-      } else if (name_len == 1 && entry->name[0] == 1) {
+      } else if (name_len == 1 && entry_name[0] == 1) {
         name = "..";
       } else {
-        if (name_len >= 3 && entry->name[name_len - 2] == ';' &&
-            entry->name[name_len - 1] == '1') {
+        if (name_len >= 3 && entry_name[name_len - 2] == ';' &&
+            entry_name[name_len - 1] == '1') {
           name_len -= 2;
         }
-        name.append(entry->name, name_len);
+        name.append(entry_name, name_len);
       }
 
       if (!handler(name, *entry, *entry_ex)) {

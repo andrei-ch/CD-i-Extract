@@ -10,6 +10,7 @@
 
 #include "sector.h"
 
+#include <functional>
 #include <unordered_map>
 #include <vector>
 
@@ -93,7 +94,6 @@ struct __attribute__((packed)) directory_entry {
   uint8_t reserved_3[2];
   uint16_t volume_seq_num;
   uint8_t name_len;
-  char name[];
 };
 
 struct __attribute__((packed)) directory_entry_ex {
